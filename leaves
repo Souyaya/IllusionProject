@@ -3,7 +3,7 @@ var leafWidth = leafHeight / 2;
 var spacing = leafHeight + leafHeight / 6;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(950, 600);
   background('#3939DB'); // 設置背景顏色
 }
 
@@ -13,14 +13,8 @@ function draw() {
 }
 
 function leafColony() {
-  var ratio = windowWidth / windowHeight;
-  var maxLeaves;
   
-  if (ratio >= 1) {
-    maxLeaves = windowWidth * 2 / spacing; 
-  } else {
-    maxLeaves = windowHeight * 2 / spacing; 
-  }
+  var maxLeaves = (950/30) *2
   
   for (var i = 0; i <= maxLeaves; i++) { // 處理第一行
     for (var j = 1; j <= maxLeaves; j++) { // 重複第一行
@@ -29,7 +23,7 @@ function leafColony() {
       individualLeaf(i, j); // 繪製個別葉子
       pop();
     }
-  }}
+  }
 }
 
 function individualLeaf(xpos, ypos) {
