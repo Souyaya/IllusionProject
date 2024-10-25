@@ -1,0 +1,51 @@
+var leafHeight = 30;
+var leafWidth = leafHeight / 2;
+var spacing = leafHeight + leafHeight / 6;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background('#3939DB'); // 設置背景顏色
+}
+
+function draw() {
+  translate(0, -leafWidth); // 調整畫布的起始位置
+  leafColony(); // 繪製葉子群落
+}
+
+function leafColony() {
+  var ratio = windowWidth / windowHeight;
+  var maxLeaves;
+  
+  if (ratio >= 1) {
+    maxLeaves = windowWidth * 2 / spacing; 
+  } else {
+    maxLeaves = windowHeight * 2 / spacing; 
+  }
+  
+  for (var i = 0; i <= maxLeaves; i++) { // 處理第一行
+    for (var j = 1; j <= maxLeaves; j++) { // 重複第一行
+      push();
+      translate(j * -spacing, 0); // 每一行向左偏移一片葉子
+      individualLeaf(i, j); // 繪製個別葉子
+      pop();
+    }
+  }}
+}
+
+function individualLeaf(xpos, ypos) {
+  ellipseMode(CENTER); // 確保旋轉不從角落開始
+  translate(spacing + xpos * spacing, ypos * spacing); // 創建行
+  rotate(radians(90 - (30 * xpos))); // 旋轉單個葉子和邊框
+  
+  noFill(); // 邊框開始
+  strokeWeight(leafHeight / 6);
+  strokeCap(SQUARE); // 確保一種顏色不會重疊
+  arc(0, 0, leafWidth, leafHeight, PI / 2, PI + PI / 2); // 與橢圓相同的形狀
+  stroke(255); // 第二條邊框為白色
+  arc(0, 0, leafWidth, leafHeight, PI + PI / 2, PI / 2);
+  
+  // 綠色部分的葉子
+  fill('#91CA50'); // 使用顏色
+  noStroke();
+  ellipse(0, 0, leafWidth, leafHeight);
+}
