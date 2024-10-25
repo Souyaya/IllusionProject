@@ -1,0 +1,58 @@
+let pattern = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 1, 0, 0, 0, 0],
+  [0, 0, 0, 1, 1, 0, 0, 1, 0],
+  [0, 0, 1, 1, 1, 1, 1, 0, 0],
+  [0, 1, 1, 1, 1, 1, 1, 0, 0],
+  [0, 0, 0, 1, 1, 1, 1, 0, 0],
+  [0, 0, 0, 1, 1, 1, 1, 0, 0],
+  [0, 0, 1, 0, 0, 0, 0, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+
+function setup() {
+  createCanvas(600, 300); // 設置畫布大小
+  noLoop(); // 只繪製一次
+  drawGrid(); // 繪製網格
+}
+
+function drawGrid() {
+  let gridSize = 30; // 每個格子的大小
+  let cols = 9; // 獲取列數
+  let rows = 9; // 獲取行數
+
+ drawPattern(0, 0, cols, rows, gridSize, '#009440', '#f24ba0', '#FFFF00', '#009440'); // 左側
+  drawPattern(cols * gridSize, 0, cols, rows, gridSize, '#f24ba0', '#009440', '#FFFF00', '#f24ba0'); // 右側
+
+}
+
+
+function drawPattern(xOffset, yOffset, cols, rows, gridSize, bgColor, gridColor, blockColor, otherBlockColor, mirror = false) {
+  // 繪製背景
+  fill(bgColor);
+  noStroke();
+  rect(xOffset, yOffset, cols * gridSize, rows * gridSize);
+
+  // 繪製網格和小方塊
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      let gridX = mirror ? cols - 1 - x : x; // 進行左右鏡像
+      fill(gridColor);
+      rect(xOffset + x * gridSize, yOffset + y * gridSize, gridSize, gridSize);
+
+      // 繪製小方塊
+      if (pattern[y][gridX] == 1) {
+        fill(blockColor); // pattern 值為 1 時使用此顏色
+      } else {
+        // 根據是否為鏡像決定 0 部分的顏色
+        if (mirror) {
+          fill(color('#f24ba0')); // 鏡像圖案中的 0 使用一種顏色
+        } else {
+          fill(otherBlockColor); // 原始圖案中的 0 使用另一種顏色
+        }
+      }
+      let margin = 5; // 小方塊的邊距
+      rect(xOffset + x * gridSize + margin, yOffset + y * gridSize + margin, gridSize - 2 * margin, gridSize - 2 * margin);
+    }
+  }
+}
