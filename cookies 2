@@ -1,0 +1,144 @@
+function setup() {
+  createCanvas(600, 600); // 創建一個600x600的畫布
+  noLoop(); // 不需要重複繪製
+}
+
+function draw() {
+  let gridSize = 38; // 每個大方格的大小
+  let smallSize = 10; // 每個小方塊的大小
+  let colors = ['#5E2E2A', '#FFFFFF']; // 定義兩種顏色（棕色和白色）
+  let borderSize = 15; // 設置邊框的厚度
+  let STR = 2; // 小方塊與邊緣的距離
+  
+  // 繪製淺藍色邊框背景
+  background('#ADD8E6'); // 整個畫布設定為淺藍色
+  
+  // 繪製內部白色方形區域
+  fill(255); // 填充白色
+  noStroke(); // 不需要邊框線
+  rect(borderSize, borderSize, width - borderSize * 2, height - borderSize * 2); // 繪製正方形內部區域
+
+  // 內部棋盤和小方塊繪製
+  for (let y = borderSize; y < height - borderSize; y += gridSize) {
+    for (let x = borderSize; x < width - borderSize; x += gridSize) {
+      let cIndex = (floor(x / gridSize) + floor(y / gridSize)) % 2; // 決定大方格的顏色
+      fill(colors[cIndex]); // 填充大方格顏色
+      rect(x, y, gridSize, gridSize); // 繪製大方格
+
+
+      let isInnerGrid1 = (x > borderSize + gridSize*5 && x < (width - gridSize*8 - borderSize)) &&
+    (y > borderSize && y < height - gridSize*8 - borderSize);
+
+      let isInnerGrid2 =  (x > borderSize + gridSize*3 && x < (width - gridSize*9 - borderSize)) &&
+    (y > borderSize + gridSize && y < height - gridSize*8 - borderSize);
+      
+      let isInnerGrid3 =  (x > borderSize + gridSize*2 && x < (width - gridSize*11 - borderSize)) &&
+    (y > borderSize + gridSize*2 && y < height - gridSize*8 - borderSize);
+      
+      let isInnerGrid4 =  (x > borderSize + gridSize*1 && x < (width - gridSize*12 - borderSize)) &&
+    (y > borderSize + gridSize*3 && y < height - gridSize*8 - borderSize);
+      
+      let isInnerGrid5 =  (x > borderSize && x < (width - gridSize*13 - borderSize)) &&
+    (y > borderSize + gridSize*5 && y < height - gridSize*8 - borderSize);
+     
+      
+      let mrisInnerGrid1 = (x > borderSize + gridSize*7 && x < (width - gridSize*6 - borderSize)) &&
+    (y > borderSize && y < height - gridSize*8 - borderSize);
+
+      let mrisInnerGrid2 =  (x > borderSize + gridSize*8 && x < (width - gridSize*4 - borderSize)) &&
+    (y > borderSize + gridSize && y < height - gridSize*8 - borderSize);
+      
+      let mrisInnerGrid3 =  (x > borderSize + gridSize*10 && x < (width - gridSize*3 - borderSize)) &&
+    (y > borderSize + gridSize*2 && y < height - gridSize*8 - borderSize);
+      
+      let mrisInnerGrid4 =  (x > borderSize + gridSize*11 && x < (width - gridSize*2 - borderSize)) &&
+    (y > borderSize + gridSize*3 && y < height - gridSize*8 - borderSize);
+      
+      let mrisInnerGrid5 =  (x > borderSize + gridSize*12 && x < (width - gridSize*1 - borderSize)) &&
+    (y > borderSize + gridSize*5 && y < height - gridSize*8 - borderSize);
+      
+      
+      let mrrInnerGrid1 = (x > borderSize + gridSize*5 && x < (width - gridSize*8 - borderSize)) &&
+    (y > borderSize + gridSize*7 && y < height - gridSize - borderSize);
+
+      let mrrInnerGrid2 =  (x > borderSize + gridSize*3 && x < (width - gridSize*9 - borderSize)) &&
+    (y > borderSize + gridSize*7 && y < height - gridSize*2 - borderSize);
+      
+      let mrrInnerGrid3 =  (x > borderSize + gridSize*2 && x < (width - gridSize*11 - borderSize)) &&
+    (y > borderSize + gridSize*7 && y < height - gridSize*3 - borderSize);
+      
+      let mrrInnerGrid4 =  (x > borderSize + gridSize*1 && x < (width - gridSize*12 - borderSize)) &&
+    (y > borderSize + gridSize*7 && y < height - gridSize*4 - borderSize);
+      
+      let mrrInnerGrid5 =  (x > borderSize && x < (width - gridSize*13 - borderSize)) &&
+    (y > borderSize + gridSize*7 && y < height - gridSize*6 - borderSize);
+
+      
+      let m3rInnerGrid1 = (x > borderSize + gridSize*7 && x < (width - gridSize*6 - borderSize)) &&
+    (y > borderSize + gridSize*7&& y < height - gridSize - borderSize);
+
+      let m3rInnerGrid2 =  (x > borderSize + gridSize*8 && x < (width - gridSize*4 - borderSize)) &&
+    (y > borderSize + gridSize*7 && y < height - gridSize*2 - borderSize);
+      
+      let m3rInnerGrid3 =  (x > borderSize + gridSize*10 && x < (width - gridSize*3 - borderSize)) &&
+    (y > borderSize + gridSize*7 && y < height - gridSize*3 - borderSize);
+      
+      let m3rInnerGrid4 =  (x > borderSize + gridSize*11 && x < (width - gridSize*2 - borderSize)) &&
+    (y > borderSize + gridSize*7 && y < height - gridSize*4 - borderSize);
+      
+      let m3rInnerGrid5 =  (x > borderSize + gridSize*12 && x < (width - gridSize*1 - borderSize)) &&
+    (y > borderSize + gridSize*7 && y < height - gridSize*6 - borderSize);
+      
+      
+      let upgrid = (x > borderSize + gridSize*6 && x < (width - gridSize*7 - borderSize)) &&
+    (y > borderSize && y < height - gridSize*8 - borderSize);
+      
+      let downgrid = (x > borderSize + gridSize*6 && x < (width - gridSize*7 - borderSize)) &&
+    (y > borderSize + gridSize *7 && y < height - gridSize - borderSize);
+      
+      let leftgrid = (x > borderSize && x < (width - gridSize*8 - borderSize)) &&
+    (y > borderSize + gridSize*6 && y < height - gridSize*7 - borderSize);
+      
+      let rightgrid = (x > borderSize + gridSize *7 && x < (width - gridSize - borderSize)) &&
+    (y > borderSize + gridSize*6 && y < height - gridSize*7 - borderSize);
+      
+      
+      // 如果是指定方格，繪製小方塊
+      if (isInnerGrid1 || isInnerGrid2 || isInnerGrid3 || isInnerGrid4|| isInnerGrid5 || m3rInnerGrid1 || m3rInnerGrid2 || m3rInnerGrid3 || m3rInnerGrid4 || m3rInnerGrid5) {
+      // 繪製小方塊，顏色與大方格相反
+      fill(colors[1 - cIndex]);
+      rect(x + gridSize - smallSize - STR, y + STR, smallSize, smallSize); // 右上角小方塊
+      rect(x + STR, y + gridSize - smallSize - STR, smallSize, smallSize);} // 左下角小方塊}
+
+      if(mrisInnerGrid1 || mrisInnerGrid2 || mrisInnerGrid3 || mrisInnerGrid4|| mrisInnerGrid5 || mrrInnerGrid1 || mrrInnerGrid2 || mrrInnerGrid3 || mrrInnerGrid4|| mrrInnerGrid5) {
+      // 繪製小方塊，顏色與大方格相反
+      fill(colors[1 - cIndex]);
+      rect(x + STR, y + STR, smallSize, smallSize); // 左上角小方塊
+      rect(x + gridSize - smallSize - STR, y + gridSize - smallSize - STR, smallSize, smallSize); // 右下角小方塊
+
+      }
+      if(upgrid){
+      fill(colors[1 - cIndex]);
+      rect(x + STR, y + gridSize - smallSize - STR, smallSize, smallSize); // 左下角小方塊
+      rect(x + gridSize - smallSize - STR, y + gridSize - smallSize - STR, smallSize, smallSize);} // 右下角小方塊} 矩形（x + 網格大小 - smallSize - STR， y + 網格大小 - smallSize - STR， smallSize， smallSize）;右下角小方塊
+      
+      if(downgrid){
+      fill(colors[1 - cIndex]);
+      rect(x + STR, y + STR, smallSize, smallSize); // 左上角小方塊
+      rect(x + gridSize - smallSize - STR, y + STR, smallSize, smallSize);} // 右上角小方塊
+      
+      if(leftgrid){
+      fill(colors[1 - cIndex]);
+      rect(x + gridSize - smallSize - STR, y + STR, smallSize, smallSize); // 右上角小方塊
+      rect(x + gridSize - smallSize - STR, y + gridSize - smallSize - STR, smallSize, smallSize);} // 右下角小方塊
+      
+      if(rightgrid){
+      fill(colors[1 - cIndex]);
+      rect(x + STR, y + STR, smallSize, smallSize); // 左上角小方塊
+      rect(x + STR, y + gridSize - smallSize - STR, smallSize, smallSize);} // 左下角小方塊
+
+    
+      }
+  }
+
+}
