@@ -1,0 +1,117 @@
+let pattern = []; // 將 pattern 初始化為空數組
+let defaultPattern = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 1, 0, 0, 0, 0],
+  [0, 0, 0, 1, 1, 0, 0, 1, 0],
+  [0, 0, 1, 1, 1, 1, 1, 0, 0],
+  [0, 1, 1, 1, 1, 1, 1, 0, 0],
+  [0, 0, 0, 1, 1, 1, 1, 0, 0],
+  [0, 0, 0, 1, 1, 1, 1, 0, 0],
+  [0, 0, 1, 0, 0, 0, 0, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+]; // 預設的 9x9 矩陣
+
+let inputField; // 用於顯示和輸入矩陣數據的輸入欄位
+
+function setup() {
+  createCanvas(600, 450); // 設置畫布大小
+  inputField = createInput(); // 創建輸入欄位
+  inputField.position(10, height - 40); // 設置輸入欄位位置
+  inputField.size(580); // 設置輸入欄位大小
+  inputField.attribute('placeholder', '請輸入矩陣數據 (例: 0,0,1,1,0,0,1,1,1;0,1,0,0,0,1,0,0,0)'); // 設置提示文字
+
+  noLoop(); // 只繪製一次
+  resetPattern(); // 使用預設的矩陣數據
+  drawGrid(); // 繪製網格
+
+  createHelpText(); // 創建幫助文本
+}
+
+function resetPattern() {
+  pattern = JSON.parse(JSON.stringify(defaultPattern)); // 重置為預設圖形
+}
+
+function inputPattern() {
+  let input = inputField.value(); // 獲取輸入欄位的值
+  let rows = input.split(';'); // 按行分割
+  pattern = []; // 清空目前的 pattern
+  for (let i = 0; i < rows.length; i++) {
+    let row = rows[i].split(',').map(Number); // 將每行的字串轉換成數字數組
+    if (row.length !== 9) { // 希望每行有 9 列
+      alert('請確保每行的列數為 9！');
+      return; // 退出函數
+    } else {
+      pattern.push(row); // 將該行數據加入 pattern
+    }
+  }
+
+  redraw(); // 重新繪製
+  inputField.value(''); // 清空輸入欄位
+}
+
+function drawGrid() {
+  let gridSize = 30; // 每個格子的大小
+  let cols = 9; // 獲取列數
+  let rows = 9; // 獲取行數
+
+  // 繪製背景
+  background(220);
+  
+  // 繪製預設圖案
+  drawPattern(0, 0, cols, rows, gridSize, '#009440', '#f24ba0', '#FFFF00', '#009440', false); // 左側圖案
+  // 繪製輸入圖案
+  drawPattern(cols * gridSize, 0, cols, rows, gridSize, '#f24ba0', '#009440', '#FFFF00', '#f24ba0', false); // 右側圖案
+}
+
+function createHelpText() {
+  let helpText = createDiv(`
+    <h3>使用說明：</h3>
+    <p>1. 輸入矩陣數據，每列用逗號分隔，每行用分號分隔。</p>
+    <p>2. 點擊Enter鍵更新圖形。</p>
+    <p>3. 可使用 <a href="https://editor.p5js.org/sandy042025/full/BAgodUC1c" target="_blank">此工具</a> 生成矩陣。</p>
+  `);
+  helpText.position(10, height - 200); // 設置位置
+  helpText.style('font-size', '16px'); // 設置字體大小
+  helpText.style('color', 'black'); // 設置字體顏色
+}
+
+function drawPattern(xOffset, yOffset, cols, rows, gridSize, bgColor, gridColor, blockColor, otherBlockColor, mirror = false) {
+  // 繪製背景
+  fill(bgColor);
+  noStroke();
+  rect(xOffset, yOffset, cols * gridSize, rows * gridSize);
+
+  // 繪製網格和小方塊
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      let gridX = mirror ? cols - 1 - x : x; // 進行左右鏡像
+      fill(gridColor);
+      rect(xOffset + x * gridSize, yOffset + y * gridSize, gridSize, gridSize);
+
+      // 繪製小方塊
+      if (pattern[y][gridX] == 1) {
+        fill(blockColor); // pattern 值為 1 時使用此顏色
+      } else {
+        // 根據是否為鏡像決定 0 部分的顏色        // 根據是否為鏡像決定 0 部分的顏色
+        if (mirror) {
+          fill('#f24ba0'); // 鏡像圖案中的 0 使用一種顏色
+        } else {
+          fill(otherBlockColor); // 原始圖案中的 0 使用另一種顏色
+        }
+      }
+      let margin = 5; // 小方塊的邊距
+      rect(xOffset + x * gridSize + margin, yOffset + y * gridSize + margin, gridSize - 2 * margin, gridSize - 2 * margin);
+    }
+  }
+}
+
+function keyPressed() {
+  if (key === 'Enter') {
+    inputPattern(); // 按下 Enter 鍵後更新圖形
+    drawGrid(); // 繪製圖形
+  }
+}
+
+function draw() {
+  // 這裡不需要繪製任何內容，因為 drawGrid() 會在 setup() 中繪製
+}
