@@ -1,0 +1,70 @@
+var leafHeight = 20; // 控制心形的高度
+var leafWidth = leafHeight; // 心形的寬度設為與高度相同
+var spacing = leafHeight + leafHeight / 2.5; // 控制心形間距
+
+function setup() {
+  createCanvas(950, 600);
+  background('#3552F6'); // 設置背景顏色
+}
+
+function draw() {
+  translate(0, -leafWidth); // 調整畫布的起始位置
+  leafColony(); // 繪製葉子群落
+}
+
+function leafColony() {
+  var maxLeaves = (950 / spacing) * 2; // 計算可以放多少個心形
+  
+  for (var i = 0; i <= maxLeaves; i++) { // 處理每一行
+    for (var j = 0; j <= maxLeaves; j++) { // 重複每一行
+      push();
+      translate(j * spacing, i * spacing); // 設置心形的位置
+      rotate(radians(30 * j)); // 根據列的數量旋轉
+      individualLeaf(); // 繪製個別心形
+      pop();
+    }
+  }
+}
+
+function individualLeaf() {
+  strokeWeight(leafHeight / 10);
+  strokeCap(SQUARE); // 確保邊緣不重疊
+
+  // 左半邊黑色填滿心形
+  fill(0);
+  noStroke();
+  drawHalfHeart(0, 0, leafWidth * 0.9, 'left');
+
+  // 右半邊白色填滿心形
+  fill(255);
+  drawHalfHeart(0, 0, leafWidth * 0.9, 'right');
+
+  //中間填滿的心形，略小以避免覆蓋黑白邊框，並向下偏移
+  fill('#F4D512');
+  noStroke();
+  heart(0, leafHeight * 0.15, leafWidth * 0.6); // 偏移的實心心形
+}
+
+// 使用提供的 heart 函數來繪製整個心形
+function heart(x, y, size) {
+  beginShape();
+  vertex(x, y + size / 4);
+  bezierVertex(x - size / 2, y - size / 2, x - size, y + size / 2, x, y + size);
+  bezierVertex(x + size, y + size / 2, x + size / 2, y - size / 2, x, y + size / 4);
+  endShape(CLOSE);
+}
+
+// 繪製左右半邊心形的函數，用於黑白半心形填滿
+function drawHalfHeart(x, y, size, side) {
+  beginShape();
+  if (side === 'left') {
+    vertex(x, y + size / 4);
+    bezierVertex(x - size / 2, y - size / 2, x - size, y + size / 2, x, y + size);
+    vertex(x, y + size); // 左半邊回到中心
+  } else {
+    vertex(x, y + size / 4);
+    bezierVertex(x + size / 2, y - size / 2, x + size, y + size / 2, x, y + size);
+    vertex(x, y + size); // 右半邊回到中心
+  }
+  endShape(CLOSE);
+}
