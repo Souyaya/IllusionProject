@@ -14,6 +14,8 @@ You can preview them at https://editor.p5js.org/sandy042025/collections/o3uJHc3W
 
 <img src="https://i.imgur.com/QNkCQ8l.png" alt="Example Image" width="600" />
 
+<img src="https://i.imgur.com/nyGMybJ.png" alt="Example Image" width="600" />
+
 <img src="https://i.imgur.com/BXcdQjP.png" alt="Example Image" width="600" />
 
 
