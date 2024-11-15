@@ -1,3 +1,5 @@
+let visible = true; // 小方塊是否可見
+
 function setup() {
   createCanvas(600, 600); // 創建一個600x600的畫布
   noLoop(); // 不需要重複繪製
@@ -25,20 +27,27 @@ function draw() {
       fill(colors[cIndex]); // 填充大方格顏色
       rect(x, y, gridSize, gridSize); // 繪製大方格
 
-      // 計算每行小方塊的A/B模式（依循AABBAABB的循環模式）
-      let patternIndex = (floor(y / gridSize)) % 4; // 取餘數以取得 0, 1, 2, 3 循環
-      fill(colors[1 - cIndex]); // 小方塊顏色與大方格相反
-      
-      if (patternIndex < 2) {
-        // A模式：左上和左下的小方塊
-        rect(x + STR, y + STR, smallSize, smallSize); // 左上角小方塊
-        rect(x + STR, y + gridSize - smallSize - STR, smallSize, smallSize); // 左下角小方塊
-      } else {
-        // B模式：右上和右下的小方塊
-        rect(x + gridSize - smallSize - STR, y + STR, smallSize, smallSize); // 右上角小方塊
-        rect(x + gridSize - smallSize - STR, y + gridSize - smallSize - STR, smallSize, smallSize); // 右下角小方塊
+      if (visible) { // 當 visible 為 true 時繪製小方塊
+        // 計算每行小方塊的A/B模式（依循AABBAABB的循環模式）
+        let patternIndex = (floor(y / gridSize)) % 4; // 取餘數以取得 0, 1, 2, 3 循環
+        fill(colors[1 - cIndex]); // 小方塊顏色與大方格相反
+        
+        if (patternIndex < 2) {
+          // A模式：左上和左下的小方塊
+          rect(x + STR, y + STR, smallSize, smallSize); // 左上角小方塊
+          rect(x + STR, y + gridSize - smallSize - STR, smallSize, smallSize); // 左下角小方塊
+        } else {
+          // B模式：右上和右下的小方塊
+          rect(x + gridSize - smallSize - STR, y + STR, smallSize, smallSize); // 右上角小方塊
+          rect(x + gridSize - smallSize - STR, y + gridSize - smallSize - STR, smallSize, smallSize); // 右下角小方塊
+        }
       }
     }
   }
+}
+
+function mousePressed() {
+  visible = !visible; // 切換小方塊的可見性
+  loop(); // 重新開始循環以更新畫布
 }
 
