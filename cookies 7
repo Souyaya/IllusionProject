@@ -1,6 +1,6 @@
 let gridSize = 38; // 每個大方格的大小
 let smallSize = 10; // 每個小方塊的大小
-let colors = ['#5E2E2A', '#FFFFFF']; // 定義兩種顏色（棕色和白色）
+let colors = ['#5E58AB', '#FFFFFF']; // 定義兩種顏色（藍色和白色）
 let borderSize = 15; // 設置邊框的厚度
 let STR = 2; // 小方塊與邊緣的距離
 let modes = [
@@ -31,7 +31,7 @@ function setup() {
 
 
 function draw() {
-  background('#ADD8E6'); // 淺藍色背景
+  background('#E1E2E2'); // 淺灰色背景
   fill(255); // 填充白色
   noStroke();
   rect(borderSize, borderSize, width - borderSize * 2, height - borderSize * 2); // 繪製內部白色區域
@@ -83,6 +83,8 @@ function draw() {
     }
   }
 }
+
+
 
 
 
