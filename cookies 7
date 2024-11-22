@@ -1,0 +1,88 @@
+let gridSize = 38; // 每個大方格的大小
+let smallSize = 10; // 每個小方塊的大小
+let colors = ['#5E2E2A', '#FFFFFF']; // 定義兩種顏色（棕色和白色）
+let borderSize = 15; // 設置邊框的厚度
+let STR = 2; // 小方塊與邊緣的距離
+let modes = [
+  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+  [-1, 3, 3, 3, 3, 3, 3, 5, 2, 2, 2, 2, 2, 2, -1, -1],
+  [-1, 3, 3, 3, 3, 3, 3, 5, 2, 2, 2, 2, 2, 2, -1, -1],
+  [-1, 3, 3, 3, 3, 3, 3, 5, 2, 2, 3, 2, 2, 2, -1, -1],
+  [-1, 3, 3, 3, 3, 3, 3, 5, 2, 2, 2, 2, 2, 2, -1, -1],
+  [-1, 3, 3, 3, 3, 3, 3, 5, 2, 2, 2, 2, 2, 2, -1, -1],
+  [-1, 3, 3, 3, 3, 3, 3, 5, 2, 2, 2, 2, 2, 2, -1, -1],
+  [-1, 1, 1, 1, 1, 1, 1, -1, 0, 0, 0, 0, 0, 0, -1, -1],
+  [-1, 2, 2, 2, 2, 2, 2, 4, 3, 3, 3, 3, 3, 3, -1, -1],
+  [-1, 2, 2, 2, 2, 2, 2, 4, 3, 3, 3, 3, 3, 3, -1, -1],
+  [-1, 2, 2, 2, 2, 2, 2, 4, 3, 3, 3, 3, 3, 3, -1, -1],
+  [-1, 2, 2, 2, 2, 2, 2, 4, 3, 3, 3, 3, 3, 3, -1, -1],
+  [-1, 2, 2, 2, 2, 2, 2, 4, 3, 3, 3, 3, 3, 3, -1, -1],
+  [-1, 2, 2, 2, 2, 2, 2, 4, 3, 3, 3, 3, 3, 3, -1, -1],
+  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+]; // 用於存儲每個方格的小方塊模式; // 用於存儲每個方格的小方塊模式
+
+function setup() {
+  createCanvas(600, 600);
+  noLoop();
+ 
+}
+
+
+
+function draw() {
+  background('#ADD8E6'); // 淺藍色背景
+  fill(255); // 填充白色
+  noStroke();
+  rect(borderSize, borderSize, width - borderSize * 2, height - borderSize * 2); // 繪製內部白色區域
+
+  // 繪製每個大方格和其中的小方塊
+  for (let row = 0; row < modes.length; row++) {
+    for (let col = 0; col < modes[row].length; col++) {
+      let x = col * gridSize + borderSize;
+      let y = row * gridSize + borderSize;
+      
+      // 確保繪製的大方格不會超出畫布
+      if (x + gridSize > width - borderSize || y + gridSize > height - borderSize) continue;
+
+      let cIndex = (col + row) % 2; // 決定大方格的顏色
+      fill(colors[cIndex]);
+      rect(x, y, gridSize, gridSize); // 繪製大方格
+
+      // 檢查當前模式，如果是 -1 則跳過小方塊的繪製
+      if (modes[row][col] === -1) continue;
+
+      // 根據當前模式繪製小方塊
+      fill(colors[1 - cIndex]); // 小方塊顏色與大方格相反
+      switch (modes[row][col]) {
+        case 0: // A 模式：左上和左下
+          rect(x + STR, y + STR, smallSize, smallSize);
+          rect(x + STR, y + gridSize - smallSize - STR, smallSize, smallSize);
+          break;
+        case 1: // B 模式：右上和右下
+          rect(x + gridSize - smallSize - STR, y + STR, smallSize, smallSize);
+          rect(x + gridSize - smallSize - STR, y + gridSize - smallSize - STR, smallSize, smallSize);
+          break;
+        case 2: // C 模式：右上和左下
+          rect(x + gridSize - smallSize - STR, y + STR, smallSize, smallSize);
+          rect(x + STR, y + gridSize - smallSize - STR, smallSize, smallSize);
+          break;
+        case 3: // D 模式：左上和右下
+          rect(x + STR, y + STR, smallSize, smallSize);
+          rect(x + gridSize - smallSize - STR, y + gridSize - smallSize - STR, smallSize, smallSize);
+          break;
+        case 4: // E 模式：左上和右上
+          rect(x + STR, y + STR, smallSize, smallSize);
+          rect(x + gridSize - smallSize - STR, y + STR, smallSize, smallSize);
+          break;
+        case 5: // F 模式：左下和右下
+          rect(x + STR, y + gridSize - smallSize - STR, smallSize, smallSize);
+          rect(x + gridSize - smallSize - STR, y + gridSize - smallSize - STR, smallSize, smallSize);
+          break;
+      }
+    }
+  }
+}
+
+
+
