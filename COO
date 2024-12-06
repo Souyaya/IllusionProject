@@ -1,6 +1,7 @@
 let imgFront, imgBack, imgLeft, imgRight, imgTop, imgBottom;
 let angleX = 0; // 初始化 X 軸旋轉角度
 let angleY = 0; // 初始化 Y 軸旋轉角度
+let angleZ = 0; // 初始化 Z 軸旋轉角度
 let lastMouseX, lastMouseY; // 上次滑鼠的位置
 let isDragging = false; // 是否正在拖曳
 let scaleFactor = 1; // 縮放因子
@@ -37,6 +38,7 @@ function draw() {
   // 應用旋轉
   rotateX(angleX);
   rotateY(angleY);
+  rotateZ(angleZ);
 
   // 繪製正方體的六個面
   noStroke();
@@ -92,5 +94,9 @@ function keyPressed() {
     angleY -= HALF_PI; // 向左旋轉 Y 軸 -90 度
   } else if (keyCode === RIGHT_ARROW) {
     angleY += HALF_PI; // 向右旋轉 Y 軸 +90 度
+  } else if (key === 'Z' || key === 'z') {
+    angleZ -= HALF_PI; // 順時針旋轉 Z 軸 -90 度
+  } else if (key === 'X' || key === 'x') {
+    angleZ += HALF_PI; // 逆時針旋轉 Z 軸 +90 度
   }
 }
