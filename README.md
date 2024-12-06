@@ -10,6 +10,8 @@ You can preview them at https://editor.p5js.org/sandy042025/collections/o3uJHc3W
 
 <img src="https://i.imgur.com/gRiUdms.png" alt="Example Image" width="300" /> <img src="https://i.imgur.com/E5lUz2h.png" alt="Example Image" width="300" />
 
+<img src="https://i.imgur.com/rVbG3Se.png" alt="Example Image" width="300" />
+
 <img src="https://i.imgur.com/r5FD42w.png" alt="Example Image" width="300" />
 
 <img src="https://i.imgur.com/L8CaLJ6.png" alt="Example Image" width="300" />
