@@ -1,0 +1,102 @@
+let imgFront, imgBack, imgLeft, imgRight, imgTop, imgBottom;
+let angleX = 0; // 初始化 X 軸旋轉角度
+let angleY = 0; // 初始化 Y 軸旋轉角度
+let angleZ = 0; // 初始化 Z 軸旋轉角度
+let lastMouseX, lastMouseY; // 上次滑鼠的位置
+let isDragging = false; // 是否正在拖曳
+let scaleFactor = 1; // 縮放因子
+
+function preload() {
+  imgFront = loadImage('https://i.imgur.com/xeL7qfS.png');  // 前面-兩個正方
+  imgBack = loadImage('https://i.imgur.com/xeL7qfS.png');  // 後面-線
+  imgLeft = loadImage('https://i.imgur.com/xeL7qfS.png');  // 左面-凸
+  imgRight = loadImage('https://i.imgur.com/xeL7qfS.png');  // 右面-凸圓
+  imgTop = loadImage('https://i.imgur.com/xeL7qfS.png');  // 上面-凹
+  imgBottom = loadImage('https://i.imgur.com/xeL7qfS.png');  // 下面-愛心
+}
+
+function setup() {
+  createCanvas(570, 570, WEBGL); // 啟用 3D 繪製
+}
+
+function draw() {
+  background(220);
+
+  // 縮放正方體
+  scale(scaleFactor);
+
+  // 根據滑鼠拖曳更新旋轉角度
+  if (isDragging) {
+    let dx = mouseX - lastMouseX; // 滑鼠 X 偏移量
+    let dy = mouseY - lastMouseY; // 滑鼠 Y 偏移量
+    angleX += dy * 0.01; // 根據 Y 偏移量調整 X 軸旋轉
+    angleY += dx * 0.01; // 根據 X 偏移量調整 Y 軸旋轉
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+  }
+
+  // 應用旋轉
+  rotateX(angleX);
+  rotateY(angleY);
+  rotateZ(angleZ);
+
+  // 繪製正方體的六個面
+  noStroke();
+  drawTexturedPlane(0, 0, 100, imgFront);              // 前面
+  drawTexturedPlane(0, 0, -100, imgBack, PI, 'y');     // 後面
+  drawTexturedPlane(-100, 0, 0, imgLeft, HALF_PI, 'y');// 左面
+  drawTexturedPlane(100, 0, 0, imgRight, -HALF_PI, 'y');// 右面
+  drawTexturedPlane(0, -100, 0, imgTop, HALF_PI, 'x');// 上面
+  drawTexturedPlane(0, 100, 0, imgBottom, -HALF_PI, 'x');// 下面
+}
+
+function drawTexturedPlane(x, y, z, textureImage, angle = 0, axis = '') {
+  push();
+  translate(x, y, z);
+
+  // 根據指定軸進行旋轉
+  if (axis === 'x') {
+    rotateX(angle);
+  } else if (axis === 'y') {
+    rotateY(angle);
+  }
+
+  texture(textureImage); // 套用圖片材質
+  plane(200, 200); // 繪製一個正方形平面
+  pop();
+}
+
+// 當滑鼠按下時，開始拖曳
+function mousePressed() {
+  lastMouseX = mouseX;
+  lastMouseY = mouseY;
+  isDragging = true;
+}
+
+// 當滑鼠釋放時，停止拖曳
+function mouseReleased() {
+  isDragging = false;
+}
+
+// 滑鼠滾輪縮放
+function mouseWheel(event) {
+  scaleFactor += event.delta * -0.001; // 調整縮放速度
+  scaleFactor = constrain(scaleFactor, 0.5, 2); // 限制縮放範圍
+}
+
+// 鍵盤方向鍵旋轉 90 度
+function keyPressed() {
+  if (keyCode === UP_ARROW) {
+    angleX -= HALF_PI; // 向上旋轉 X 軸 -90 度
+  } else if (keyCode === DOWN_ARROW) {
+    angleX += HALF_PI; // 向下旋轉 X 軸 +90 度
+  } else if (keyCode === LEFT_ARROW) {
+    angleY -= HALF_PI; // 向左旋轉 Y 軸 -90 度
+  } else if (keyCode === RIGHT_ARROW) {
+    angleY += HALF_PI; // 向右旋轉 Y 軸 +90 度
+  } else if (key === 'Z' || key === 'z') {
+    angleZ -= HALF_PI; // 順時針旋轉 Z 軸 -90 度
+  } else if (key === 'X' || key === 'x') {
+    angleZ += HALF_PI; // 逆時針旋轉 Z 軸 +90 度
+  }
+}
